@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Join Lobby</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 16px; }
+    form, .box { display: grid; gap: 8px; max-width: 420px; }
+    input, select, button { padding: 10px; font-size: 16px; }
+    pre { background: #111; color: #0f0; padding: 8px; border-radius: 8px; max-width: 640px; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <h1>Join lobby</h1>
+
+  <div class="box">
+    <button id="createBtn">Create lobby</button>
+    <div id="lobbyInfo"></div>
+  </div>
+
+  <form id="joinForm">
+    <label> Lobby ID <input id="lobbyId" placeholder="ABC123" /></label>
+    <label> Navn <input id="name" placeholder="Navn" /></label>
+    <label> Personlighet
+      <select id="personality">
+        <option value="AGGRESSIVE">Aggressiv</option>
+        <option value="DEFENSIVE">Defensiv</option>
+        <option value="TACTICAL">Taktisk</option>
+      </select>
+    </label>
+    <button type="submit">Join</button>
+  </form>
+
+  <p><button id="startBtn">Start Round</button></p>
+
+  <h3>Lobbystate</h3>
+  <pre id="state"></pre>
+
+  <script>
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("/hub")
+      .withAutomaticReconnect()
+      .build();
+
+    const lobbyIdInput = document.getElementById('lobbyId');
+    const nameInput = document.getElementById('name');
+    const personalitySelect = document.getElementById('personality');
+    const statePre = document.getElementById('state');
+    const lobbyInfo = document.getElementById('lobbyInfo');
+
+    connection.on("LobbyCreated", (res) => {
+      lobbyIdInput.value = res.lobbyId;
+      lobbyInfo.textContent = `Lobby opprettet: ${res.lobbyId}`;
+    });
+
+    connection.on("LobbyState", (state) => {
+      statePre.textContent = JSON.stringify(state, null, 2);
+    });
+
+    connection.on("RoundStarted", (payload) => {
+      console.log("RoundStarted", payload);
+      alert(`Runde startet i lobby ${payload.lobbyId} med ${payload.players.length} spillere.`);
+    });
+
+    connection.on("Error", (msg) => alert("Feil: " + msg));
+
+    document.getElementById('createBtn').addEventListener('click', async () => {
+      await connection.invoke("CreateLobby");
+    });
+
+    document.getElementById('startBtn').addEventListener('click', async () => {
+      const lobbyId = lobbyIdInput.value.trim().toUpperCase();
+      if (!lobbyId) return alert("Skriv inn lobby ID");
+      await connection.invoke("StartRound", lobbyId);
+    });
+
+    document.getElementById('joinForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const lobbyId = lobbyIdInput.value.trim().toUpperCase();
+      const name = nameInput.value.trim();
+      const personality = personalitySelect.value;
+      if (!lobbyId || !name) return alert("Fyll ut lobbyId og navn");
+      await connection.invoke("JoinLobby", lobbyId, name, personality);
+    });
+
+    async function start() {
+      await connection.start();
+      const urlLobby = new URLSearchParams(location.search).get("lobby");
+      if (urlLobby) lobbyIdInput.value = urlLobby.toUpperCase();
+    }
+    start();
+  </script>
+</body>
+</html>

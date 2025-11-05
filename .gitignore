@@ -1,0 +1,109 @@
+# ========== GENERELT ==========
+*.log
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ========== BYGGEFILER ==========
+bin/
+obj/
+out/
+Debug/
+Release/
+build/
+
+# ========== VISUAL STUDIO / VS CODE ==========
+.vs/
+.vscode/*.code-workspace
+.vscode/*-workspace.json
+.vscode/*_workspace.json
+
+# ========== DOTNET / NUGET ==========
+*.dll
+*.exe
+*.pdb
+*.cache
+*.dbmdl
+*.bak
+*.tmp
+*.svclog
+*.ide
+*.nupkg
+*.snupkg
+project.lock.json
+artifacts/
+*.nuspec
+*.psess
+*.vsp
+*.vspx
+*.pidb
+*.opendb
+*.VC.db
+*.vshost.*
+
+# NuGet
+*.nuget.props
+*.nuget.targets
+packages/
+*.ncrunchsolution
+*.ncrunchproject
+
+# ========== USER SETTINGS ==========
+*.sln.docstates
+*.userprefs
+*.user
+*.rsuser
+
+# ========== UNITY ==========
+Library/
+Temp/
+Logs/
+Obj/
+Build/
+Builds/
+UserSettings/
+MemoryCaptures/
+Recordings/
+sysinfo.txt
+*.booproj
+*.pidb
+*.suo
+*.unityproj
+*.userprefs
+*.blend*
+*.fbx
+*.meta
+*.prefab.unity
+*.tpsheet
+*.apk
+*.unitypackage
+*.shadergraph.meta
+
+# ========== FRONTEND ==========
+node_modules/
+dist/
+*.env
+.env.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tgz
+
+# ========== OPERATIVSYSTEM ==========
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# Ignoring local text files
+startup.txt
