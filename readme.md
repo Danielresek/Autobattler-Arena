@@ -1,13 +1,13 @@
-# Autobattler (WIP)
+# Autobattler
 
 Autobattler is an early-stage game project built with **C#**, **.NET**, and **Unity**.  
 The goal is to create a real-time multiplayer arena where players can join lobbies, compete in automated battles, and watch AI-controlled characters fight it out.
 
-> ⚙️ **Status:** Work in progress - core systems are still under development.
+> **Status:** Work in progress - core systems are still under development.
 
 ---
 
-## 🧩 Current Project Structure
+## Current Project Structure
 
 ### **1. Server.Web**
 
@@ -33,7 +33,7 @@ The goal is to create a real-time multiplayer arena where players can join lobbi
 
 ---
 
-## 🖥️ Running the Project
+## Running the Project
 
 1. Clone the repository:
    ```bash
